@@ -1,5 +1,5 @@
 import flet as ft
-
+import os
 import editar
 
 
@@ -22,10 +22,26 @@ def principal(pagina: ft.Page):
         max_lines=None,
         border=ft.InputBorder.NONE,
     )
-    salvar_como = ft.FilePicker(on_result=arquivo.salvar_como_arquivo)
+
+    def funcao_abrir_explorador(e: ft.FilePickerResultEvent):
+        for x in e.files:
+            arquivo.abrir_arquivo(caixa_texto, pagina, x)
+            nome_arquivo = str(x.name)
+            arquivo.titulo_pagina_arquivo_texto(nome_arquivo, pagina)
+    def salvar_como_arquivo(e: ft.FilePickerResultEvent):
+        pasta = e.path
+        def retorna_nome_criado():
+            for x in e.files:
+                return x.name
+        nome_arquivo_criado = retorna_nome_criado()
+        novo_arquivo = os.path.join(pasta,nome_arquivo_criado)
+        with open(novo_arquivo, 'w', enconding='utf-8') as arquivo_texto:
+            arquivo_texto.write(caixa_texto.value)
+
+    salvar_como = ft.FilePicker(on_result=salvar_como_arquivo)
     pagina.overlay.append(salvar_como)
-    abrir = ft.FilePicker(on_result=arquivo.abrir_arquivo(caixa_texto=caixa_texto, pagina=pagina))
-    pagina.overlay.append(abrir)
+    abrir_arquivo = ft.FilePicker(on_result=funcao_abrir_explorador)
+    pagina.overlay.append(abrir_arquivo)
     #botões
     botao_arquivo = ft.SubmenuButton(content=ft.Text("Arquivo"),
                     controls=[
@@ -41,7 +57,7 @@ def principal(pagina: ft.Page):
                     ft.MenuItemButton(
                         content=ft.Text("Abrir"),
                         style=ft.ButtonStyle(bgcolor={ft.ControlState.HOVERED: ft.colors.BLUE}),
-                        on_click=lambda e: abrir.pick_files()
+                        on_click=lambda e: abrir_arquivo.pick_files()
                     ),
                     ft.MenuItemButton(
                         content=ft.Text("Salvar"),
