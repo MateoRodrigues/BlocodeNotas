@@ -51,10 +51,6 @@ def principal(pagina: ft.Page):
                         on_click=lambda e: arquivo.limpar_caixa_texto(caixa_texto, pagina)
                     ),
                     ft.MenuItemButton(
-                        content=ft.Text("Nova janela"),
-                        style=ft.ButtonStyle(bgcolor={ft.ControlState.HOVERED: ft.colors.BLUE})
-                    ),
-                    ft.MenuItemButton(
                         content=ft.Text("Abrir"),
                         style=ft.ButtonStyle(bgcolor={ft.ControlState.HOVERED: ft.colors.BLUE}),
                         on_click=lambda e: abrir_arquivo.pick_files()
@@ -146,10 +142,12 @@ def principal(pagina: ft.Page):
                             style=ft.ButtonStyle(bgcolor={ft.ControlState.HOVERED: ft.colors.BLUE}),
                             controls=[ft.MenuItemButton(
                                 content=ft.Text("Claro"),
+                                leading=ft.Icon(ft.icons.LIGHT_MODE),
                                 style=ft.ButtonStyle(bgcolor={ft.ControlState.HOVERED: ft.colors.BLUE}),
                                 on_click=lambda e: exibir.mudar_tema_claro(pagina)
                             ), ft.MenuItemButton(
                                 content=ft.Text("Escuro"),
+                                leading=ft.Icon(ft.icons.DARK_MODE),
                                 style=ft.ButtonStyle(bgcolor={ft.ControlState.HOVERED: ft.colors.BLUE}),
                                 on_click= lambda e: exibir.mudar_tema_escuro(pagina)
                             )]
@@ -164,9 +162,9 @@ def principal(pagina: ft.Page):
         bgcolor=ft.colors.WHITE,  # Cor da linha
         border_radius=0  # Remove arredondamento
     )
-
+    menubar = ft.MenuBar(expand=True,controls=[botao_arquivo,botao_editar,botao_formatar,botao_exibir])
     #adicionando a pagina
-    pagina.add(ft.Row([botao_arquivo,botao_editar,botao_formatar,botao_exibir], alignment=ft.MainAxisAlignment.START,spacing=0))
+    pagina.add(ft.Row([menubar]))
     pagina.add(divisor)
     pagina.add(ft.Row([caixa_texto],alignment=ft.MainAxisAlignment.END))
 
