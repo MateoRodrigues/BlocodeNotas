@@ -33,9 +33,7 @@ def abrir_arquivo(caixa_texto, pagina, x):
 
 
 
-"""def nova_janela(pagina):
-    pagina.page()
-    pagina.update()"""
+
 
 
 def fechar_janela(pagina):

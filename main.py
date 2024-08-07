@@ -14,6 +14,7 @@ def principal(pagina: ft.Page):
     pagina.window_width = 800
     pagina.spacing = 0
     pagina.padding = 0
+    exibir.tema(pagina)
     # Caixa de texto
     caixa_texto = ft.TextField(
         multiline=True,
